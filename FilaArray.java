@@ -6,14 +6,15 @@ class Main {
     f.enfileirar("C");
     f.enfileirar("D");
     f.enfileirar("E");
+    f.enfileirar("F");
     f.desenfileirar();
     f.desenfileirar();
     f.desenfileirar();
     f.desenfileirar();
     f.desenfileirar();
-    System.out.println(f.size());
+    f.desenfileirar();
+    System.out.println("Capacidade da fila: "+f.tamanho+"\nTamanho da fila: " + f.size());
     f.display();
-    
   }
 }
 class fila{
@@ -31,9 +32,21 @@ class fila{
     this.tamanho = tamanho;
   }
   public void enfileirar(Object elem){//fazer o execption de pilha cheia
-    Fila[fim] = elem;
-    fim = (fim+1) % tamanho;
+    if(isFull()){
+      Object [] novo = new Object[2*this.tamanho];
+      for(int i = 0; i<this.fim;i++){
+        novo[i] = Fila[i];
+      }
+      novo[fim] = elem;
+      fim = ++fim;
+      total++;
+      Fila = novo;
+      this.tamanho = 2 * this.tamanho;
+    }else{
+      Fila[fim] = elem;
+    fim = ++fim;
     total++;
+    }
   }
   public Object desenfileirar(){//fazer a execption de pilha vazia
     Object elem = Fila[inicio];
