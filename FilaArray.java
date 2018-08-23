@@ -6,14 +6,10 @@ class Main {
     f.enfileirar("C");
     f.enfileirar("D");
     f.enfileirar("E");
-    f.enfileirar("F");
     f.desenfileirar();
-    f.desenfileirar();
-    f.desenfileirar();
-    f.desenfileirar();
-    f.desenfileirar();
-    f.desenfileirar();
-    System.out.println("Capacidade da fila: "+f.tamanho+"\nTamanho da fila: " + f.size());
+    f.enfileirar("G");
+
+    System.out.println("Valor do fim: "+f.fim+"\nCapacidade da fila: "+f.tamanho+"\nTamanho da fila: " + f.size());
     f.display();
   }
 }
@@ -33,19 +29,20 @@ class fila{
   }
   public void enfileirar(Object elem){//fazer o execption de pilha cheia
     if(isFull()){
-      Object [] novo = new Object[2*this.tamanho];
-      for(int i = 0; i<this.fim;i++){
-        novo[i] = Fila[i];
+      Object [] aux = new Object[2*this.tamanho];
+      for(int i=0;i<this.total;i++){
+        aux[i] = Fila[inicio];
+        inicio = (inicio+1) % tamanho;
       }
-      novo[fim] = elem;
-      fim = ++fim;
-      total++;
-      Fila = novo;
-      this.tamanho = 2 * this.tamanho;
+      aux[fim] = elem;
+      Fila = aux;
+      this.inicio = 0;
+      this.fim = i;
+      this.tamanho = 2*this.tamanho;
+      this.total++;
     }else{
-      Fila[fim] = elem;
-    fim = ++fim;
-    total++;
+      Fila[this.fim] = elem;
+      this.total++;
     }
   }
   public Object desenfileirar(){//fazer a execption de pilha vazia
@@ -58,7 +55,7 @@ class fila{
     return (total == 0);
   }
   public boolean isFull(){
-    return (total==tamanho);
+    return (total==tamanho-1);
   }
   public int size(){
     return total;
