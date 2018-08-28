@@ -18,9 +18,9 @@ public class PilhaListaEncadeada {
     this.topo = nova; // o topo que era nulo agora recebe a nova lista que foi passado
   }
 
-  public Object pop() {
-    if(size()==0){
-      //Exception de vazio
+  public Object pop() throws EPilhaVazia{
+    if(size() == 0){
+      throw new EPilhaVazia();
     }
     Object element = topo.getElemento();
     if(size == 1){
