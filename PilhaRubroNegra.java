@@ -15,7 +15,7 @@ public class PilhaRubroNegra{
 
     public void PushPreto(Object x) throws EPilhaCheia{
        if(topPreto+1==topVermelho){//nao precisa comparar com null  pode fazer assim if(topPreto + 1 == topVermelho)
-            Object novo = new novo[this.capacity*2];
+            Object novo = new Object[this.capacity*2];
             for(int i=0;i<topPreto+1;i++){
                 novo[i] = array[i]; 
             }
