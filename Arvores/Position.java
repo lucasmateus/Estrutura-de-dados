@@ -1,11 +1,7 @@
-/**
- * @author jorgiano
- *
- */
 public interface Position
 {
 	/**
-	 * @return Objeto contendo o elemento armazenado nesta posição
+	 * @return Objeto contendo o elemento armazenado nesta posiÃ§Ã£o
 	 */
 	public Object element();
 }
