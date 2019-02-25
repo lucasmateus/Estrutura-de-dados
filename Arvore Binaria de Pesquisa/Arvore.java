@@ -6,33 +6,32 @@ public class Arvore{
   }
 
   //metodos de controle
-  public boolean isEmpty(){
-    return this.raiz == null;
+  public No root(){
+    return this.raiz;
   }
-  public void inserir(int elemento){
-    No novo = new No(elemento);//cria o novo nó
 
-    if(isEmpty()){//se a arvore estiver vazia
-      this.raiz = novo;
-    }else{
-      No atual = this.raiz;
-      No anterior;//pulo do gato (esse nó serve para ser um auxiliar e possibilitar a inserção)
-      while(true){
-        anterior = atual;
-        if(elemento <= atual.getElemento()){//vai para o lado esquerdo
-          atual = atual.getNoEsq();//O no atual vai ser o filho esquerdo
-          if(atual == null){//se o no esquerdo estiver vazio
-            anterior.setNoEsq(novo);//inserimos o novo nó
-          }
-        }else{//vai para o lado direito
-          atual = atual.getNoDir();//O no atual vai ser o filho direito
-          if(atual == null){//se encontrarmos um vazio do lado direito
-            anterior.setNoDir(novo);//inserimos o novo nó
-          }
-        }
-      }
-    }
+  public boolean isEmpty(){
+    return (this.raiz == null);
   }
+
+  public void Inserir(int value) {
+    this.raiz = InserirRecusivo(raiz, value);
+  }
+
+  public No InserirRecusivo(No root, int valor) {
+	    if (root == null) { //Se a arvore estiver vazia
+	        return new No(valor);
+	    }
+	    if (valor < root.getElemento()) {//insere no lado esquerdo
+	        root.setNoEsq(InserirRecusivo(root.getNoEsq(), valor));
+	    } else if (valor >= root.getElemento()) {//insere no lado direito
+	        root.setNoDir(InserirRecusivo(root.getNoDir(), valor));
+	    } else {
+	        return root;
+	    }
+	 
+	    return root;
+	}
 
   public No Buscar(int valor){
     if(isEmpty()){
@@ -50,5 +49,19 @@ public class Arvore{
       }
     }
     return atual;
+  }
+  
+  public boolean BuscaRecursiva(No root, int valor){
+    if(root == null){
+      return false;
+    }
+    if(valor == root.getElemento()){
+      return true;
+    }
+    return valor < root.getElemento() ? BuscaRecursiva(root.getNoEsq(), valor) : BuscaRecursiva(root.getNoDir(), valor);
+  }
+
+  public boolean Busca(int valor){
+    return BuscaRecursiva(this.raiz, valor);
   }
 }
