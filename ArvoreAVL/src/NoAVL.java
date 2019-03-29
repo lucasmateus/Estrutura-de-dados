@@ -1,3 +1,6 @@
+import java.util.Vector;
+import java.util.Iterator;
+import java.math.*;
 
 public class NoAVL {
 	private NoAVL pai;
@@ -64,12 +67,13 @@ public class NoAVL {
 			return 1;
 		}else return -1;
 	}
+	//Colado de Israel
 	public Iterator children() {
         Vector<NoAVL> c = new Vector<NoAVL>();
         if (getEsq() != null)
-            c.addElement(left);
+            c.addElement(esq);
         if (getDir() != null)
-            c.addElement(right);
+            c.addElement(dir);
         return c.iterator();
 	}
 	//Get's e Set's Atributos do NoAVL
