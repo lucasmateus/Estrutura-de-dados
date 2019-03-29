@@ -1,4 +1,6 @@
 
+import java.util.*;
+
 public class ArvoreAVL {
 
 	private NoAVL raiz;
@@ -171,14 +173,14 @@ public class ArvoreAVL {
     	}
 
     	public int profundidade(NoAVL n) {
-        if (n == this.root)
+        if (n == this.raiz)
             return 0;
         else
             return 1 + profundidade(n.getPai());
 	}
 	
 	public int height() {
-        	return altura(root);
+        	return altura(raiz);
 	}
 	
 	public int altura(NoAVL n) {
@@ -192,6 +194,31 @@ public class ArvoreAVL {
 		}
 		return 1 + h;
     	}
+	public Iterator elements() {
+        Vector elements = new Vector();
+        inOrder(elements, 1);
+        return elements.iterator();
+    	}
+
+    	public Iterator nos() {
+        Vector<NoAVL> nos = new Vector<NoAVL>();
+        inOrder(nos, 0);
+        return nos.iterator();
+	}
+	public void inOrder(Vector elements, int flag) {
+        in(raiz, elements, flag);
+    	}
+
+    	private void in(NoAVL n, Vector elements, int flag) {
+        if (n != null) {
+            in(n.getEsq(), elements, flag);
+            if (flag == 1)
+                elements.addElement(n.getElemento());
+            else
+                elements.addElement(n);
+            in(n.getDir(), elements, flag);
+        }
+	}
 	public void RSD(NoAVL no) {
 		NoAVL aux = no.getEsq();// no auxiliar vai ser igual ao filho esquerdo no no que nao esta balanceado
 		no.setEsq(aux.getDir());// o filho esquerdo do no que nao ta balanceado vai ser o filho direito do no
@@ -264,7 +291,7 @@ public class ArvoreAVL {
             }
         }
 		
-        /*Iterator<NoAVL> nos = nos();
+        Iterator<NoAVL> nos = nos();
         int ordem = 0;
         System.out.print("em ordem : ");
         while (nos.hasNext()) {
@@ -272,7 +299,7 @@ public class ArvoreAVL {
             System.out.print(n.getKey()+" ");
             int profundidade = profundidade(n) * 2;
             table[profundidade][ordem++] += n.getKey();
-        }*/
+        }
 		
         System.out.println();
         for (i = 0; i < altura; i++) {
@@ -281,7 +308,6 @@ public class ArvoreAVL {
             }
             System.out.println();
         }
-        System.out.println("fb de root = " + this.root.getFb());
+        System.out.println("fb de root = " + this.raiz.getFb());
     }
-}
 }
