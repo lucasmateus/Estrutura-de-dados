@@ -16,14 +16,14 @@ public class NoAVL {
 		this.dir = null;
 	}
 	
-	//Atualiza o FB depois de uma inserção
+	//Atualiza o FB depois de uma inserÃ§Ã£o
 	public NoAVL atualizarFbInserir(int side){
         fb += 1*side;
         if(fb == 2 || fb == -2) return this;
         if(pai == null || (fb == 0)) return this;
         return pai.atualizaFbIns(lado());
     }
-	//Metodo recusivo para atualizar o FB depois de uma inserção
+	//Metodo recusivo para atualizar o FB depois de uma inserÃ§Ã£o
     public NoAVL atualizaFbIns(int side){
         fb += 1*side;
         if(esq != null && dir != null){
@@ -37,14 +37,14 @@ public class NoAVL {
         if(pai == null || (fb == 0)) return null;
         return pai.atualizaFbIns(lado());
     }
-    //Atualiza o FB depois de uma remoção
+    //Atualiza o FB depois de uma remoÃ§Ã£o
     public NoAVL atualizarFbRemover(int side){
         fb += -1*side;
         if(fb == 2 || fb == -2) return this;
         if(pai == null || (fb != 0)) return this;
         return pai.atualizaFbRem(lado());
     }
-    //Metodo recusivo para atualizar o FB depois de uma remoção
+    //Metodo recusivo para atualizar o FB depois de uma remoÃ§Ã£o
     public NoAVL atualizaFbRem(int side){
         fb += -1*side;
         if(esq != null && dir != null){
@@ -58,11 +58,19 @@ public class NoAVL {
         if(pai == null || (fb != 0)) return null;
         return pai.atualizaFbRem(lado());
     }
-	//Diz o lado do nó
+	//Diz o lado do nÃ³
 	public int lado() {
 		if(this.key <= this.pai.getKey()) {
 			return 1;
 		}else return -1;
+	}
+	public Iterator children() {
+        Vector<NoAVL> c = new Vector<NoAVL>();
+        if (getEsq() != null)
+            c.addElement(left);
+        if (getDir() != null)
+            c.addElement(right);
+        return c.iterator();
 	}
 	//Get's e Set's Atributos do NoAVL
 	public NoAVL getPai() {
