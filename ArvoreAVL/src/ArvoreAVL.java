@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class ArvoreAVL {
@@ -142,9 +141,9 @@ public class ArvoreAVL {
 				}
 			}else {//se o sucessor nao tem filho a esquerda
 				if(sucessor.lado() == 1) {//se o lado do sucessor for a esquerda do seu pai
-					sucessor.getPai().setDir(null);//o filho direito do pai do sucessor é null
+					sucessor.getPai().setEsq(null);//o filho direito do pai do sucessor é null
 				}else {//se for do lado direito
-					sucessor.getPai().setEsq(null);//o filho esquerdo do pai do sucessor é null
+					sucessor.getPai().setDir(null);//o filho esquerdo do pai do sucessor é null
 				}
 				NoAVL no_balancear = sucessor.getPai().atualizarFbRemover(sucessor.lado());//atualiza os fb apartir do pai do sucessor
 				if(no_balancear != null) {
