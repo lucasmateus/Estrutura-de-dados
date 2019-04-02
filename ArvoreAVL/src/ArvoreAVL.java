@@ -4,6 +4,9 @@ public class ArvoreAVL {
 
 	private NoAVL raiz;
 
+  public ArvoreAVL() {  
+    this.raiz = null;
+	}
 	public ArvoreAVL(NoAVL raiz) {
 		this.raiz = raiz;
 	}
@@ -19,6 +22,7 @@ public class ArvoreAVL {
 	public void inserir(Object elemento, int key) {
 		if (this.raiz == null) {
 			this.raiz = new NoAVL(null, elemento, key);
+      return;
 		}
 		NoAVL noInserido = inserirRecusivo(this.raiz, elemento, key);
 		System.out.println("No inserido: " + noInserido.getElemento());
@@ -99,13 +103,16 @@ public class ArvoreAVL {
 		if (no_removido == null) {
 			return null;
 		}
-		if (no_removido.getEsq() == null && no_removido.getDir() == null) {// se é um no folha
-			if (no_removido == root()) {// se o no é a raiz
+		//Se o Nó não tem filhos
+		if (no_removido.getEsq() == null && no_removido.getDir() == null) {
+			//Se o nó é a raiz
+			if (no_removido == root()) {
 				this.raiz = null;
-			} else {// se o no não for a raiz
+			} else {
+				
 				if (no_removido.lado() == 1) {// se o no a ser removido estiver ao lado esquerdo do pai
 					no_removido.getPai().setEsq(null);
-				} else {// vai esta do lado direito
+				} else {
 					no_removido.getPai().setDir(null);
 				}
 				NoAVL no_balancear = no_removido.getPai().atualizarFbRemover(no_removido.lado());
@@ -123,46 +130,58 @@ public class ArvoreAVL {
                     no_removido.getDir().setPai(null);
                 }
                 raiz.setFb(0);
-			}
-		}else if(no_removido.getDir() != null && no_removido.getEsq() != null) {//Caso o no tenha os dois filhos
-			NoAVL sucessor = sucessor(no_removido);//No que vai assumir o lugar do no removido
-			no_removido.setElemento(sucessor.getElemento());//trocamos o elemento das posiçoes
-			no_removido.setKey(sucessor.getKey());//trocamos a key
-			if(sucessor.getEsq() != null) {//se o sucessor tem filho a esquerda
-				if(sucessor.lado() == -1) {//se o sucessor for do lado direito
-					sucessor.getPai().setDir(sucessor.getEsq());//o filho direito do pai do sucessor vai ser o filho esquerdo do sucessor
-				}else {//se o sucessor for do lado esquedo
-					sucessor.getPai().setEsq(sucessor.getEsq());//o filho esquerdo do pai do sucessor vai ser o filho esquerdo do sucessor
-				}
-				sucessor.getEsq().setPai(sucessor.getPai());//o pai do do filho esquerdo do sucessor vai ser o pai do sucessor
-				NoAVL no_balancear = sucessor.atualizarFbRemover(1);//atualizamos o fb da arvore percorrendo pela posição do sucessor
-				if(no_balancear != null) {
-					rebalancear(no_balancear);//rebalanceia a arvore caso necessario
-				}
-			}else {//se o sucessor nao tem filho a esquerda
-				if(sucessor.lado() == 1) {//se o lado do sucessor for a esquerda do seu pai
-					sucessor.getPai().setEsq(null);//o filho direito do pai do sucessor é null
-				}else {//se for do lado direito
-					sucessor.getPai().setDir(null);//o filho esquerdo do pai do sucessor é null
-				}
-				NoAVL no_balancear = sucessor.getPai().atualizarFbRemover(sucessor.lado());//atualiza os fb apartir do pai do sucessor
-				if(no_balancear != null) {
-					rebalancear(no_balancear);//rebalanceia a arvore caso necessario
-				}
-			}
-		}
+			}else{
+        if(no_removido.getEsq()!=null){
+          no_removido.setElemento(no_removido.getEsq().getElemento());
+          no_removido.setKey(no_removido.getEsq().getKey());
+          no_removido.setEsq(null);
+          no_removido.atualizarFbRemover(1);
+        }else{
+          no_removido.setElemento(no_removido.getDir().getElemento());
+          no_removido.setKey(no_removido.getDir().getKey());
+          no_removido.setDir(null);
+          no_removido.atualizarFbRemover(-1);
+        }
+      }
+		}else if (no_removido.getDir() != null && no_removido.getEsq() != null) {
+            NoAVL s = sucessor(no_removido);
+            no_removido.setElemento(s.getElemento());
+            no_removido.setKey(s.getKey());
+            if (s.getDir() != null) {
+                if (s.lado() == 1) {
+                    s.getPai().setEsq(s.getDir());
+                } else {
+                    s.getPai().setDir(s.getDir());
+                }
+                s.getDir().setPai(s.getPai());
+                NoAVL no_balancear = s.atualizarFbRemover(s.lado());
+                if(no_balancear != null) {
+					        rebalancear(no_balancear);//rebalanceia a arvore caso necessario
+				        }
+            } else {
+                if (s.lado() == 1) {
+                    s.getPai().setEsq(null);
+                } else {
+                    s.getPai().setDir(null);
+                }
+                NoAVL no_balancear = s.getPai().atualizarFbRemover(s.lado());
+                if(no_balancear != null) {
+					        rebalancear(no_balancear);//rebalanceia a arvore caso necessario
+				        }
+            }
+      }
 		return no_removido.getElemento();
 	}
 
 	public NoAVL sucessor(NoAVL no) {
-		if (no.getEsq() != null) {
-			NoAVL noEsquerda = no.getEsq();
-			while (noEsquerda.getDir() != null) {
-				noEsquerda = noEsquerda.getDir();
+		if (no.getDir() != null) {
+			NoAVL noDireita = no.getDir();
+			while (noDireita.getEsq() != null) {
+				noDireita = noDireita.getEsq();
 			}
-			return noEsquerda;
+			return noDireita;
 		} else {
-			return no.getDir();
+			return no.getEsq();
 		}
 	}
 	
@@ -276,7 +295,7 @@ public class ArvoreAVL {
 		RSE(no);
 	}
 	public void display() {
-        System.out.println("Arvore---------\n");
+        System.out.println("---------Arvore AVL---------\n");
         if (isEmpty()) {
             System.out.println("vazia");
         }
@@ -295,7 +314,7 @@ public class ArvoreAVL {
         System.out.print("em ordem : ");
         while (nos.hasNext()) {
             NoAVL n = nos.next();
-            System.out.print(n.getKey()+" ");
+            System.out.print("\nChave: "+n.getKey()+" e Fb: "+n.getFb()+"\n");
             int profundidade = profundidade(n) * 2;
             table[profundidade][ordem++] += n.getKey();
         }
