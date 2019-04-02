@@ -23,47 +23,19 @@ public class NoAVL {
 	public NoAVL atualizarFbInserir(int side){
         fb += 1*side;
         if(fb == 2 || fb == -2) return this;
-        if(pai == null || (fb == 0)) return this;
-        return pai.atualizaFbIns(lado());
-    }
-	//Metodo recusivo para atualizar o FB depois de uma inserção
-    public NoAVL atualizaFbIns(int side){
-        fb += 1*side;
-        if(esq != null && dir != null){
-            if(side == 1){
-                fb+=dir.fb*1;
-            }else{
-                fb+=Math.abs(esq.fb)*1;
-            }
-        }
-        if(fb == 2 || fb == -2) return this;
-        if(pai == null || (fb == 0)) return null;
-        return pai.atualizaFbIns(lado());
+        if(pai == null || fb == 0) return null;
+        return pai.atualizarFbInserir(lado());
     }
     //Atualiza o FB depois de uma remoção
     public NoAVL atualizarFbRemover(int side){
         fb += -1*side;
         if(fb == 2 || fb == -2) return this;
-        if(pai == null || (fb != 0)) return this;
-        return pai.atualizaFbRem(lado());
-    }
-    //Metodo recusivo para atualizar o FB depois de uma remoção
-    public NoAVL atualizaFbRem(int side){
-        fb += -1*side;
-        if(esq != null && dir != null){
-            if(side == 1){
-                fb+=dir.fb*1;
-            }else{
-                fb+=Math.abs(esq.fb)*1;
-            }
-        }
-        if(fb == 2 || fb == -2) return this;
-        if(pai == null || (fb != 0)) return null;
-        return pai.atualizaFbRem(lado());
+        if(pai == null || fb != 0) return null;
+        return pai.atualizarFbRemover(lado());
     }
 	//Diz o lado do nó
 	public int lado() {
-		if(this.key <= this.pai.getKey()) {
+		if(this.key < this.pai.getKey()) {
 			return 1;
 		}else return -1;
 	}
