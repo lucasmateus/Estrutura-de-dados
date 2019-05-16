@@ -42,22 +42,39 @@ public class Grafo {
 		Aresta a = new Aresta(elemento, vertice1, vertice2, direcionado);
 		arestas.add(a);
 		
-		int posiçãoV1 = vertices.indexOf(vertice1);
-		int posiçãoV2 = vertices.indexOf(vertice2);
+		int posicaov1 = vertices.indexOf(vertice1);
+		int posicaov2 = vertices.indexOf(vertice2);
 		
-		if(tabela[posiçãoV1][posiçãoV2] == null) {
-			tabela[posiçãoV1][posiçãoV2] = new Vector<Aresta>();
+		if(tabela[posicaov1][posicaov2] == null) {
+			tabela[posicaov1][posicaov2] = new Vector<Aresta>();
 		}
-		if(tabela[posiçãoV2][posiçãoV1] == null) {
-			tabela[posiçãoV2][posiçãoV1] = new Vector<Aresta>();
+		if(tabela[posicaov2][posicaov1] == null) {
+			tabela[posicaov2][posicaov1] = new Vector<Aresta>();
 		}
 		
-		if(posiçãoV1 != posiçãoV2) {
-			tabela[posiçãoV1][posiçãoV2].add(a);
-			tabela[posiçãoV2][posiçãoV1].add(a);
+		if(posicaov1 != posicaov2) {
+			tabela[posicaov1][posicaov2].add(a);
+			tabela[posicaov2][posicaov1].add(a);
 		}else {
-			tabela[posiçãoV1][posiçãoV2].add(a);
+			tabela[posicaov1][posicaov2].add(a);
 		}
 	}
 	
+	public void inserirArestaDirecionada(Object elemento, int v1, int v2, boolean direcionado){
+		Vertice vertice1 = vertices.get(v1);
+		Vertice vertice2 = vertices.get(v2);
+
+		Aresta a = new Aresta(elemento, v1, v2, direcionado);
+		arestas.add(a);
+
+		int posicaov1 = vertices.indexOf(vertice1);
+		int posicaov2 = vertices.indexOf(vertice2);
+
+		if(tabela[posicaov2][posicaov1] == null){
+			tabela[posicaov2][posicaov1] = new Vector<Aresta>();
+			tabela[posicaov2][posicaov1].add(a);
+		}else{
+			tabela[posicaov2][posicaov1].add(a);
+		}
+	}
 }
