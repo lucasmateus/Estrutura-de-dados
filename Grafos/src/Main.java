@@ -44,8 +44,16 @@ public class Main {
 					System.out.println();
 					Menu();
 					break;
-						
+				
 				case "4":
+					System.out.print("Digite a posição do vertice a remover:");
+					int removeVertice = sc.nextInt()-1;
+					g.removerVertice(g.buscarVertice(removeVertice));
+					System.out.println();
+					Menu();
+					break;
+					
+				case "5":
 					System.out.println("--------------Tabela----------------");
 					g.displayTabela();
 					Menu();
@@ -72,7 +80,8 @@ public class Main {
 				"1 - Adicionar Vertice\n"+
 				"2 - Adicionar Aresta Simples\n"+
 				"3 - Adicionar Aresta Direcionada\n"+
-				"4 - Mostrar Tabela\n"+
+				"4 - Remover Vertice\n"+
+				"5 - Mostrar Tabela\n"+
 				"0 - Sair\n"
 		);
 	}
