@@ -16,6 +16,9 @@ public class Grafo {
 					System.out.print("0|");
 			}
 		}
+    //Ordem de Grafo = numero de vertices
+    System.out.println("\nNumero de vertices: "+vertices.size());
+    System.out.println("Numero de arestas: "+arestas.size());
 	}
 
 	public void inserirVertice(Object elemento) {
@@ -34,10 +37,7 @@ public class Grafo {
 		this.tabela = novaTabela;
 	}
 
-	public void inserirAresta(Object elemento, int v1, int v2, boolean direcionado) {
-		Vertice vertice1 = vertices.get(v1);
-		Vertice vertice2 = vertices.get(v2);
-
+	public void inserirAresta(Object elemento, Vertice vertice1, Vertice vertice2, boolean direcionado) {
 		Aresta a = new Aresta(elemento, vertice1, vertice2, direcionado);
 		arestas.add(a);
 
@@ -59,10 +59,7 @@ public class Grafo {
 		}
 	}
 
-	public void inserirArestaDirecionada(Object elemento, int v1, int v2, boolean direcionado) {
-		Vertice vertice1 = vertices.get(v1);
-		Vertice vertice2 = vertices.get(v2);
-
+	public void inserirArestaDirecionada(Object elemento, Vertice vertice1, Vertice vertice2, boolean direcionado) {
 		Aresta a = new Aresta(elemento, vertice1, vertice2, direcionado);
 		arestas.add(a);
 
@@ -84,25 +81,67 @@ public class Grafo {
 		Object removido = v.getElemento();
 		int posicaoV = vertices.indexOf(v);
 		Vector<Aresta> novaTabela[][] = new Vector[vertices.size()-1][vertices.size()-1];
-		int auxJ;
-		int auxI;
+		
 		//Linha
-		for (int i = 0; i < vertices.size() - 1; i++) {
-			auxI = i;
-			if (i == posicaoV) {
-				auxI = i + 1;
-			}
+    int auxI = 0;
+		for (int i = 0; i < vertices.size() - 1;) {
+      if(i == posicaoV && auxI == posicaoV){
+        auxI++;
+      }
 			//Coluna
-			for (int j = 0; j < vertices.size() - 1; j++) {	
-				auxJ = j;
-				if (j == posicaoV) {
-					auxJ = j + 1;
-				}
+      int auxJ = 0;
+			for (int j = 0; j < vertices.size() - 1;) {	
+				if(j == posicaoV && auxJ == posicaoV){
+          auxJ++;
+        }
 				novaTabela[i][j] = tabela[auxI][auxJ];
+        j++;
+        auxJ++;
 			}
+      i++;
+      auxI++;
 		}
 		this.tabela = novaTabela;
 		vertices.remove(posicaoV);
 		return removido;
 	}
+
+  public Aresta buscarAresta(Object elemento){
+    for(int i=0;i<arestas.size();i++){
+      if(arestas.get(i).getElemento().equals(elemento)){
+        return arestas.get(i);
+      }
+    }
+    return null;
+  }
+
+  public Object removerAresta(Aresta a){
+    Object removido = a.getElemento();
+    int posiçãoA = arestas.indexOf(a);
+
+    int vertice1 = vertices.indexOf(a.getOrigem());
+    int vertice2 = vertices.indexOf(a.getDestino());
+
+    if(a.getDirecionado()){
+      tabela[vertice1][vertice2].remove(a);
+    }else{
+      tabela[vertice1][vertice2].remove(a);
+      tabela[vertice2][vertice1].remove(a);
+    }
+    arestas.remove(a);
+    return removido;
+  }
+
+  public boolean verticesAdjacentes(Vertice v1, Vertice v2){
+    int posicaoV1 = vertices.indexOf(v1);
+    int posicaoV2 = vertices.indexOf(v2);
+
+    if(tabela[posicaoV1][posicaoV2] != null || 
+      tabela[posicaoV2][posicaoV1] != null){
+        return true;
+    }else return false;
+  }
+  public boolean arestasParalelas(Aresta a1, Aresta a2){
+    return true;
+  }
 }
