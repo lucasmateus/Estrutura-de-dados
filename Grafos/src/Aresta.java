@@ -1,4 +1,3 @@
-
 public class Aresta {
 	
 	private Object elemento;
@@ -32,6 +31,9 @@ public class Aresta {
 	public void setDestino(Vertice destino) {
 		this.destino = destino;
 	}
-		
+
+  public boolean getDirecionado(){
+    return direcionado;
+  }
 	
 }
