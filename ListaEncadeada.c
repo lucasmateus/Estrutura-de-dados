@@ -47,7 +47,7 @@ lista removeLastNode(lista head){
     temp = temp->proximo;
   }
   free(temp->proximo);
-  temp->proximo = NULL;->proximo
+  temp->proximo = NULL;
   return head;
 }
 lista removeFirstNode(lista head){
