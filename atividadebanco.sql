@@ -8,13 +8,13 @@ return(select
             COUNT(Sales.SalesOrderDetail.ProductID) as Quantidade_Total_Vendida, 
             AVG(Sales.SalesOrderDetail.UnitPrice) as Preço_Unitário_Médio, 
             SUM(Sales.SalesOrderDetail.UnitPriceDiscount) as Desconto_Total_Concedido,
-			SUM(Sales.SalesOrderDetail.UnitPrice) as Valor_Total_Vendido
+			SUM(Sales.SalesOrderHeader.TotalDue) as Valor_Total_Vendido
             FROM Sales.SalesOrderDetail INNER JOIN Sales.SalesOrderHeader ON Sales.SalesOrderDetail.SalesOrderID = Sales.SalesOrderHeader.SalesOrderID
             WHERE YEAR(Sales.SalesOrderHeader.OrderDate) = @ano
             AND MONTH(Sales.SalesOrderHeader.OrderDate) = @mes
             group by ProductID)
 
-select * from SalesMonth(3,2014)
+select * from SalesMonth(2,2014) order by Identificador
 
 /*
 	02 - Identificador, Mês (atual), Ano (atual), Quantidade Total Vendida (mês anterior), Valor Total Vendido (mês anterior),
